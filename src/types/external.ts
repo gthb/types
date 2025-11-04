@@ -13,7 +13,7 @@ export type External = {
    * These will only be a subset of sheets needed to run calculations, so indexes from the original
    * workbooks will not be preserved.
    */
-  sheets: ExternalWorksheet[];
+  sheets?: ExternalWorksheet[];
   /** Relevant defined names from an external workbook. */
-  names: DefinedName[];
+  names?: DefinedName[];
 };
