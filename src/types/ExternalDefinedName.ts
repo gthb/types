@@ -11,8 +11,20 @@ export type ExternalDefinedName = {
    */
   name: string;
   /**
-   * A formula expression, a reference, or value. Whatever the value is will be evaluated by a
-   * spreadsheet engine as if it were an expression.
+   * What the name refers to in the external workbook: either `=` followed by a single A1 cell or
+   * rectangular range reference, such as `='Sheet1'!$A$2`, or the string `#REF!`.
+   *
+   * This is narrower than {@link DefinedName.value}, deliberately. It mirrors the
+   * `externalDefinedName@refersTo` attribute of an OOXML external link, which holds a reference
+   * and nothing else. A source definition that is not a single rectangular reference — a
+   * constant, an expression over a reference, a union of two areas, a spill anchor — has no
+   * representation here, and a producer writes `#REF!` in its place, as the application that
+   * caches such a name does.
+   *
+   * A consumer resolves this against the external workbook's own
+   * {@link ExternalWorksheet | worksheets} rather than evaluating it as a formula. An external
+   * workbook is a cache of values, not a context in which formulas run, and the cached
+   * {@link ExternalWorksheet.cells | cells} a reference lands on are the only data available.
    */
   value?: string;
   /**
